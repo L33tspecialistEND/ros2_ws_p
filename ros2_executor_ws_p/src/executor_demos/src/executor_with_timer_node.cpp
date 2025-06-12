@@ -16,7 +16,7 @@ class TimerNode : public rclcpp::Node
     private:
         void timer_callback()
         {
-            std::this_thread::sleep_for(200ms);
+            //std::this_thread::sleep_for(1000ms); // Run then uncomment this and run again
 
             RCLCPP_INFO(this->get_logger(), "Timer callback executed!");
         }
