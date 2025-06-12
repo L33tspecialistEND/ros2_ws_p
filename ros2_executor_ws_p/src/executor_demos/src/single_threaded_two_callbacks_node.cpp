@@ -28,7 +28,7 @@ class TwoTimerNode : public rclcpp::Node
         void timer_callback1()
         {
             RCLCPP_INFO(this->get_logger(), "[Timer1] callback started! Now simulating 300ms of work.");
-            std::this_thread::sleep_for(600ms);
+            std::this_thread::sleep_for(300ms);
             RCLCPP_INFO(this->get_logger(), "[Timer1] callback finished!");
         }
 
