@@ -12,8 +12,15 @@ find_package(rclcpp REQUIRED)
 add_executable(minimal_executor_node src/minimal_executor_node.cpp)
 ament_target_dependencies(minimal_executor_node rclcpp)
 
+add_executable(explicit_single_threaded_node src/single_threaded_executor_node.cpp)
+ament_target_dependencies(explicit_single_threaded_node rclcpp)
+
 install(TARGETS
   minimal_executor_node
+  DESTINATION lib/${PROJECT_NAME})
+
+install(TARGETS 
+  explicit_single_threaded_node
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
