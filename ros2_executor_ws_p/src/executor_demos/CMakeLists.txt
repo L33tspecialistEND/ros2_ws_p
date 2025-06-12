@@ -13,7 +13,7 @@ add_executable(minimal_executor_node src/minimal_executor_node.cpp)
 ament_target_dependencies(minimal_executor_node rclcpp)
 
 install(TARGETS
-  talker
+  minimal_executor_node
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
