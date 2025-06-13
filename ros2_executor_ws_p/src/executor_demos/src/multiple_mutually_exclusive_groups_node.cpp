@@ -15,6 +15,9 @@ class MultipleGroupsNode : public rclcpp::Node
             // Group 2: Mutually Exclusive for actuator commands
             actuator_group_ = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
 
+            // Group 3: Reentrant for logging to console
+            reentrant_group_ = this->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
+
             // Timer 1: Simulate sensor data processing
             timer1_ = this->create_wall_timer(
                 700ms,
@@ -28,15 +31,25 @@ class MultipleGroupsNode : public rclcpp::Node
                 std::bind(&MultipleGroupsNode::actuator_callback, this),
                 actuator_group_
             );
+            RCLCPP_INFO(this->get_logger(), "[MultipleGroupsNode] started. Timer1: 0.7s. Timer2: 0.3s. Timer3: 0.1s.");
+
+            // Timer 3: Simulate logging to the console
+            timer3_ = this->create_wall_timer(
+                100ms,
+                std::bind(&MultipleGroupsNode::logging_callback, this),
+                reentrant_group_
+            );
             RCLCPP_INFO(this->get_logger(), "[MultipleGroupsNode] started. Timer1: 0.7s. Timer2: 0.3s.");
         }
 
     private:
         rclcpp::TimerBase::SharedPtr timer1_;
         rclcpp::TimerBase::SharedPtr timer2_;
+        rclcpp::TimerBase::SharedPtr timer3_;
 
         rclcpp::CallbackGroup::SharedPtr sensor_group_;
         rclcpp::CallbackGroup::SharedPtr actuator_group_;
+        rclcpp::CallbackGroup::SharedPtr reentrant_group_;
 
         void sensor_callback()
         {
@@ -54,6 +67,15 @@ class MultipleGroupsNode : public rclcpp::Node
             // Imagine it is accessing shared actuator state here
             std::this_thread::sleep_for(200ms);
             RCLCPP_INFO(this->get_logger(), "[ActuatorGroup] callback finished.");
+        }
+
+        void logging_callback()
+        {
+            RCLCPP_INFO(this->get_logger(), "[ReentrantGroup] callback started.");
+            // Simulate 100ms of work
+            // Imagine it is logging to the console here
+            std::this_thread::sleep_for(100ms);
+            RCLCPP_INFO(this->get_logger(), "[ReentrantGroup] callback finished.");
         }
 };
 
