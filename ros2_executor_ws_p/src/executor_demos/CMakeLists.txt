@@ -21,8 +21,11 @@ ament_target_dependencies(executor_with_timer_node rclcpp)
 add_executable(single_threaded_two_callbacks_node src/single_threaded_two_callbacks_node.cpp)
 ament_target_dependencies(single_threaded_two_callbacks_node rclcpp)
 
-add_executable(multi_threaded_two_nodes src/multi_threaded_two_nodes)
+add_executable(multi_threaded_two_nodes src/multi_threaded_two_nodes.cpp)
 ament_target_dependencies(multi_threaded_two_nodes rclcpp)
+
+add_executable(two_nodes_two_executors src/two_nodes_two_executors.cpp)
+ament_target_dependencies(two_nodes_two_executors rclcpp)
 
 install(TARGETS
   minimal_executor_node
@@ -30,6 +33,7 @@ install(TARGETS
   multi_threaded_two_nodes
   explicit_single_threaded_node
   executor_with_timer_node
+  two_nodes_two_executors
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
