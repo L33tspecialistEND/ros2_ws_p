@@ -30,7 +30,7 @@ ament_target_dependencies(two_nodes_two_executors rclcpp)
 add_executable(reentrant_callback_group_node src/reentrant_callback_group_node.cpp)
 ament_target_dependencies(reentrant_callback_group_node rclcpp)
 
-add_executable(mutually_exclusive_callback_group_node src.mutually_exclusive_callback_group_node.cpp)
+add_executable(mutually_exclusive_callback_group_node src/mutually_exclusive_callback_group_node.cpp)
 ament_target_dependencies(mutually_exclusive_callback_group_node rclcpp)
 
 install(TARGETS
