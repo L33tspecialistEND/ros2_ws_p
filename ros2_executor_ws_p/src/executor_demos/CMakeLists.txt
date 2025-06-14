@@ -36,6 +36,9 @@ ament_target_dependencies(mutually_exclusive_callback_group_node rclcpp)
 add_executable(multiple_mutually_exclusive_groups_node src/multiple_mutually_exclusive_groups_node.cpp)
 ament_target_dependencies(multiple_mutually_exclusive_groups_node rclcpp)
 
+add_executable(subscription_callbacks_exercise_node src/subscription_callbacks_exercise_node.cpp)
+ament_target_dependencies(subscription_callbacks_exercise_node rclcpp std_msgs)
+
 install(TARGETS
   minimal_executor_node
   single_threaded_two_callbacks_node
@@ -46,6 +49,7 @@ install(TARGETS
   reentrant_callback_group_node
   mutually_exclusive_callback_group_node
   multiple_mutually_exclusive_groups_node
+  subscription_callbacks_exercise_node
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
