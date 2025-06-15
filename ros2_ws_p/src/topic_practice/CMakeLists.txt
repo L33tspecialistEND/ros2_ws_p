@@ -19,6 +19,9 @@ find_package(std_msgs REQUIRED)
 add_executable(my_publisher src/my_publisher.cpp)
 ament_target_dependencies(my_publisher rclcpp std_msgs)
 
+add_executable(int_subscriber src/int_subscriber.cpp)
+ament_target_dependencies(int_subscriber rclcpp std_msgs)
+
 add_executable(random_int_publisher src/random_int_publisher.cpp)
 ament_target_dependencies(random_int_publisher rclcpp std_msgs)
 target_include_directories(random_int_publisher PUBLIC
@@ -29,6 +32,7 @@ target_include_directories(random_int_publisher PUBLIC
 install(TARGETS 
   my_publisher
   random_int_publisher
+  int_subscriber
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
