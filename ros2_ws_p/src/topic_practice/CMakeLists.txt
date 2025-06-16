@@ -27,6 +27,9 @@ ament_target_dependencies(int_subscriber rclcpp std_msgs)
 add_executable(robot_status_publisher src/robot_status_publisher.cpp)
 ament_target_dependencies(robot_status_publisher rclcpp robot_interfaces)
 
+add_executable(robot_status_subscriber src/robot_status_subscriber.cpp)
+ament_target_dependencies(robot_status_subscriber rclcpp robot_interfaces)
+
 add_executable(random_int_publisher src/random_int_publisher.cpp)
 ament_target_dependencies(random_int_publisher rclcpp std_msgs)
 target_include_directories(random_int_publisher PUBLIC
@@ -39,6 +42,7 @@ install(TARGETS
   random_int_publisher
   int_subscriber
   robot_status_publisher
+  robot_status_subscriber
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
