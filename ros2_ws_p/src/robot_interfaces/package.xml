@@ -8,10 +8,12 @@
   <license>Apache License 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
-
-  <depend>std_msgs</depend>
   <buildtool_depend>rosidl_default_generators</buildtool_depend>  <!--Required for message generation--> 
   <exec_depend>rosidl_default_runtime</exec_depend> <!--For runtime support of generated interfaces-->
+
+  <depend>std_msgs</depend>
+  <depend>builtin_interfaces</depend>
+
   <member_of_group>rosidl_interface_packages</member_of_group>  <!--Required for custom interfaces--> 
 
   <export>
