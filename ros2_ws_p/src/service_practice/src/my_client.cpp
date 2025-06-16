@@ -53,9 +53,16 @@ class MyClient : public rclcpp::Node
 int main(int argc, char* argv[])
 {
     rclcpp::init(argc, argv);
-    auto node = std::make_shared<MyClient>();
+    
+    if(argc != 3)
+    {
+        RCLCPP_INFO(rclcpp::get_logger("main_logger"), "Usage: my_client X Y");   
+        return 1;     
+    }
 
-    node->send_request(11, 12);
+    auto node = std::make_shared<MyClient>();
+    node->send_request(std::stoi(argv[1]), std::stoi(argv[2]));
+
     rclcpp::shutdown();
 
     return 0;
