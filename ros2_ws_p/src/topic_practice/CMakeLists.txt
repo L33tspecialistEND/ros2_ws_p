@@ -15,12 +15,17 @@ include_directories(
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(robot_interfaces)
+find_package(builtin_interfaces)
 
 add_executable(my_publisher src/my_publisher.cpp)
 ament_target_dependencies(my_publisher rclcpp std_msgs)
 
 add_executable(int_subscriber src/int_subscriber.cpp)
 ament_target_dependencies(int_subscriber rclcpp std_msgs)
+
+add_executable(robot_status_publisher src/robot_status_publisher.cpp)
+ament_target_dependencies(robot_status_publisher rclcpp robot_interfaces)
 
 add_executable(random_int_publisher src/random_int_publisher.cpp)
 ament_target_dependencies(random_int_publisher rclcpp std_msgs)
@@ -33,6 +38,7 @@ install(TARGETS
   my_publisher
   random_int_publisher
   int_subscriber
+  robot_status_publisher
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
