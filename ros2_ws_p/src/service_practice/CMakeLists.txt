@@ -13,8 +13,12 @@ find_package(example_interfaces REQUIRED)
 add_executable(my_client src/my_client.cpp)
 ament_target_dependencies(my_client rclcpp example_interfaces)
 
+add_executable(my_server src/my_server.cpp)
+ament_target_dependencies(my_server rclcpp example_interfaces)
+
 install(TARGETS 
   my_client
+  my_server
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
