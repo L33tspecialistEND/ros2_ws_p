@@ -13,11 +13,15 @@ find_package(example_interfaces REQUIRED)
 add_executable(add_two_ints_client src/add_two_ints_client.cpp)
 ament_target_dependencies(add_two_ints_client rclcpp example_interfaces)
 
+add_executable(add_two_ints_server src/add_two_ints_server.cpp)
+ament_target_dependencies(add_two_ints_server rclcpp example_interfaces)
+
 add_executable(responsive_client_node src/responsive_client_node.cpp)
 ament_target_dependencies(responsive_client_node rclcpp example_interfaces)
 
 install(TARGETS 
   add_two_ints_client
+  add_two_ints_server
   responsive_client_node
   DESTINATION lib/${PROJECT_NAME})
 
