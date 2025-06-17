@@ -11,7 +11,7 @@ class MyClient : public rclcpp::Node
     public:
         MyClient() : Node("my_client")
         {
-            client_ = this->create_client<example_interfaces::srv::AddTwoInts>("my_client");
+            client_ = this->create_client<example_interfaces::srv::AddTwoInts>("my_add_two_ints");
         }
 
         void send_request(int num1, int num2)
