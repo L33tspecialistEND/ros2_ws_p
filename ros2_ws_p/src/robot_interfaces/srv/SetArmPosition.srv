@@ -1,0 +1,8 @@
+# Request: Desired arm position in Cartesian coordinates
+float32 x
+float32 y
+float32 z
+---
+# Response: Success/failure of the arm movement
+bool success
+string message  # Optional message: e.g "Arm arrived", "Obstacle detected"

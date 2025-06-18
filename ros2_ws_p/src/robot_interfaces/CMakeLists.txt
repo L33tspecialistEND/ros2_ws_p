@@ -14,6 +14,7 @@ find_package(builtin_interfaces REQUIRED)
 # Specify message files here
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/RobotStatus.msg" 
+  "srv/SetArmPosition.srv"
   DEPENDENCIES std_msgs builtin_interfaces  # List message dependencies here
 
   # Add other .msg, .srv, .action files if I make more
