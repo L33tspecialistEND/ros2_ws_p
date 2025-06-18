@@ -3,7 +3,7 @@
 <package format="3">
   <name>robot_interfaces</name>
   <version>0.0.0</version>
-  <description>A message interface with fields for robot status.</description>
+  <description>A package to contain practice interfaces.</description>
   <maintainer email="ntiajubukason@gmail.com">Ntiaju Chukwuebuka Eric</maintainer>
   <license>Apache License 2.0</license>
 

@@ -1,0 +1,9 @@
+# Goal: The target number to count up to
+int64 target_count
+---
+# Result: The final count when the action completes
+int64 final_count
+bool success
+---
+# Feedback: The current count during the action
+int64 current_count
