@@ -9,6 +9,13 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
-find_package(example_interfaces REQUIRED)
+find_package(robot_interfaces REQUIRED)
+
+add_executable(count_until_client src/count_until_client.cpp)
+ament_target_dependencies(count_until_client rclcpp rclcpp_action robot_interfaces)
+
+install(TARGETS 
+  count_until_client
+  DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
