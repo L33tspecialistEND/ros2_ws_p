@@ -1,0 +1,12 @@
+# Goal
+float32 cleaning_radius             # Radius of the circular area to clean
+int32 cleaning_sweeps               # Number of passes/sweeps the robot should make
+---
+# Result
+bool success                        # True if cleaning completed successfully, false if otherwise
+float32 area_cleaned_sq_m           # Total area cleaned in square meters
+string message                      # Descriptive message about the outcome (e.g., "Cleaning completed", "Interrupted", "Invalid goal")
+---
+# Feedback
+float32 percentage_complete         # Current percentage of the cleaning task completed (0.0 - 1.0)
+string current_status               # Current status or phase (e.g., "Moving to start", "Sweep 1 of 3", "Returning to base")

@@ -16,6 +16,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/RobotStatus.msg" 
   "srv/SetArmPosition.srv"
   "action/CountUntil.action"
+  "action/CleanArea.action"
   DEPENDENCIES std_msgs builtin_interfaces  # List message dependencies here
 
   # Add other .msg, .srv, .action files if I make more
