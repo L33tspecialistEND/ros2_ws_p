@@ -1,0 +1,6 @@
+# Request: Desired value to reset the counter to
+int64 reset_value
+---
+# Response: Success or failure of the reset
+bool success
+string message      # Optional: Message in case of an error
