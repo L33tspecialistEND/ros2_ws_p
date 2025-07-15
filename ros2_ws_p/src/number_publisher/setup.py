@@ -21,7 +21,8 @@ setup(
     entry_points={
         'console_scripts': [
             "num_pub = number_publisher.number_publisher:main",
-            "number_counter = number_publisher.number_counter:main"
+            "number_counter = number_publisher.number_counter:main",
+            "reset_counter_client = number_publisher.reset_counter_client:main"
         ],
     },
 )
