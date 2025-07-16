@@ -94,11 +94,6 @@ class TurtleController : public rclcpp::Node
                 RCLCPP_INFO(this->get_logger(), "Turtle moving in the right half of the plane...");
             }
 
-            if(msg->x > 5.444)
-                on_right_side_ = true;
-            else
-                on_right_side_ = false;
-
             if(msg->x > 5.5444 && on_right_side_)
             {
                 set_pen_request(200, 0, 0, 4);
@@ -118,7 +113,7 @@ class TurtleController : public rclcpp::Node
             const ActivateTurtle::Response::SharedPtr response
         )
         {
-            
+
         }
 };
 
