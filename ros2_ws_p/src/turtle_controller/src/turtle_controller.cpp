@@ -3,12 +3,14 @@
 #include "turtlesim/msg/pose.hpp"
 #include "turtlesim/srv/set_pen.hpp"
 #include "robot_interfaces/srv/reset_counter.hpp"
+#include "robot_interfaces/srv/activate_turtle.hpp"
 #include <functional>
 #include <chrono>
 
 using namespace std::chrono_literals;
 using namespace std::placeholders;
 using SetPen = turtlesim::srv::SetPen;
+using ActivateTurtle = robot_interfaces::srv::ActivateTurtle;
 
 
 class TurtleController : public rclcpp::Node
@@ -25,6 +27,10 @@ class TurtleController : public rclcpp::Node
                 std::bind(&TurtleController::callback_pose, this, _1)
             );
             turtle_pen_client_ = create_client<SetPen>("/turtle1/set_pen");
+            activate_turtle_server_ = create_service<ActivateTurtle>(
+                "/activate_turtle",
+                std::bind(&TurtleController::callback_activate_turtle, this, _1, _2)
+            );
 
             on_right_side_ = true;
 
@@ -60,6 +66,7 @@ class TurtleController : public rclcpp::Node
         rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr move_turtle_publisher_;
         rclcpp::Subscription<turtlesim::msg::Pose>::SharedPtr turtle_pose_subscriber_;
         rclcpp::Client<SetPen>::SharedPtr turtle_pen_client_;
+        rclcpp::Service<ActivateTurtle>::SharedPtr activate_turtle_server_;
         bool on_right_side_;
 
 
@@ -104,6 +111,14 @@ class TurtleController : public rclcpp::Node
                 RCLCPP_INFO(this->get_logger(), "Setting pen to Green...");
                 on_right_side_ = true;
             }
+        }
+
+        void callback_activate_turtle(
+            const ActivateTurtle::Request::SharedPtr request,
+            const ActivateTurtle::Response::SharedPtr response
+        )
+        {
+            
         }
 };
 
