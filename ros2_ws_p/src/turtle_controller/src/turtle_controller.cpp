@@ -33,6 +33,7 @@ class TurtleController : public rclcpp::Node
             );
 
             on_right_side_ = true;
+            turtle_activated_state_ = false;
 
             RCLCPP_INFO(this->get_logger(), "[TurtleController] Node started.");
         }
@@ -68,7 +69,7 @@ class TurtleController : public rclcpp::Node
         rclcpp::Client<SetPen>::SharedPtr turtle_pen_client_;
         rclcpp::Service<ActivateTurtle>::SharedPtr activate_turtle_server_;
         bool on_right_side_;
-
+        bool turtle_activated_state_;
 
         void callback_set_pen_response(rclcpp::Client<SetPen>::SharedFuture future)
         {
@@ -79,33 +80,37 @@ class TurtleController : public rclcpp::Node
         {
             auto move_in_circle = geometry_msgs::msg::Twist();
 
-            if (msg->x > 5.5444)
+            if(turtle_activated_state_)
             {
-                move_in_circle.angular.z = 1.0;
-                move_in_circle.linear.x = 1.0;
-                move_turtle_publisher_->publish(move_in_circle);
-                RCLCPP_INFO(this->get_logger(), "Turtle moving in the left half of the plane...");
-            }
-            else if(msg->x <= 5.5444)
-            {
-                move_in_circle.angular.z = 2.0;
-                move_in_circle.linear.x = 2.0;
-                move_turtle_publisher_->publish(move_in_circle);
-                RCLCPP_INFO(this->get_logger(), "Turtle moving in the right half of the plane...");
-            }
+                if (msg->x > 5.5444)
+                {
+                        move_in_circle.angular.z = 1.0;
+                    move_in_circle.linear.x = 1.0;
+                    move_turtle_publisher_->publish(move_in_circle);
+                    RCLCPP_INFO(this->get_logger(), "Turtle moving in the left half of the plane...");
+                }
+                else if(msg->x <= 5.5444)
+                {
+                    move_in_circle.angular.z = 2.0;
+                    move_in_circle.linear.x = 2.0;
+                    move_turtle_publisher_->publish(move_in_circle);
+                    RCLCPP_INFO(this->get_logger(), "Turtle moving in the right half of the plane...");
+                }
 
-            if(msg->x > 5.5444 && on_right_side_)
-            {
-                set_pen_request(200, 0, 0, 4);
-                RCLCPP_INFO(this->get_logger(), "Setting pen to Red...");
+                if(msg->x > 5.5444 && on_right_side_)
+                {
+                    set_pen_request(200, 0, 0, 4);
+                    RCLCPP_INFO(this->get_logger(), "Setting pen to Red...");
                 on_right_side_ = false;
+                }
+                else if(msg->x <= 5.5444 && !on_right_side_)
+                {
+                    set_pen_request(0, 200, 0, 4);
+                    RCLCPP_INFO(this->get_logger(), "Setting pen to Green...");
+                    on_right_side_ = true;
+                }
             }
-            else if(msg->x <= 5.5444 && !on_right_side_)
-            {
-                set_pen_request(0, 200, 0, 4);
-                RCLCPP_INFO(this->get_logger(), "Setting pen to Green...");
-                on_right_side_ = true;
-            }
+            
         }
 
         void callback_activate_turtle(
