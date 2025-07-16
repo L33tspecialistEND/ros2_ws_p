@@ -1,0 +1,6 @@
+# Request: "True" will activate the bot and "false" will deactivate it
+bool activate
+---
+# Response: Success or failure of the activation/deactivation
+bool success
+string message      # Optional: Message to explain current state of the robot
