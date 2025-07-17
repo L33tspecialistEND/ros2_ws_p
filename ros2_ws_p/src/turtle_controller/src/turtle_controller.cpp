@@ -110,7 +110,6 @@ class TurtleController : public rclcpp::Node
                     on_right_side_ = true;
                 }
             }
-            
         }
 
         void callback_activate_turtle(
@@ -118,7 +117,38 @@ class TurtleController : public rclcpp::Node
             const ActivateTurtle::Response::SharedPtr response
         )
         {
-
+            if(turtle_activated_state_)
+            {
+                if(request->activate)
+                {
+                    RCLCPP_WARN(this->get_logger(), "Turtle already activated.");
+                    response->success = false;
+                    response->message = "Turtle already activated.";
+                }
+                else if(!request->activate)
+                {
+                    RCLCPP_INFO(this->get_logger(), "Turtle deactivating....");
+                    turtle_activated_state_ = request->activate;
+                    response->success = true;
+                    response->message = "Turtle deactivated.";
+                }
+            }
+            else if(!turtle_activated_state_)
+            {
+                if(!request->activate)
+                {
+                    RCLCPP_WARN(this->get_logger(), "Turtle already deactivated.");
+                    response->success = false;
+                    response->message = "Turtle already deactivated.";
+                }
+                else if(request->activate)
+                {
+                    RCLCPP_INFO(this->get_logger(), "Turtle activating....");
+                    turtle_activated_state_ = request->activate;
+                    response->success = true;
+                    response->message = "Turtle activated.";
+                }
+            }
         }
 };
 
