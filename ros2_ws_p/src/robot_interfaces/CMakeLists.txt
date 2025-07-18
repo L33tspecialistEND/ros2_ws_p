@@ -19,6 +19,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "action/CleanArea.action"
   "srv/ResetCounter.srv"
   "srv/ActivateTurtle.srv"
+  "action/CountUpTo.action"
   DEPENDENCIES std_msgs builtin_interfaces  # List message dependencies here
 
   # Add other .msg, .srv, .action files if I make more
