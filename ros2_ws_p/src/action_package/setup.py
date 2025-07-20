@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            "count_up_to = action_package.count_up_to_server_minimal:main"
+            "count_up_to_server = action_package.count_up_to_server_minimal:main",
+            "count_up_to_client = action_package.count_up_to_client_minimal:main"
         ],
     },
 )
