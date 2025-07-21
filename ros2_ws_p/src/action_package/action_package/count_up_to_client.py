@@ -17,7 +17,12 @@ class CountUpToClient(Node):
         goal.target_number = target_number
         goal.delay = delay
         self.count_up_to_client_.send_goal_async(
-            goal).add_done_callback(self.goal_response_callback)
+            goal, feedback_callback = self.goal_feedback_callback).add_done_callback(
+                self.goal_response_callback)
+    
+    def goal_feedback_callback(self, feedback_msg):
+        number = feedback_msg.feedback.current_number
+        self.get_logger().info("Current number: " + str(number))
         
     def goal_response_callback(self, future):
         self.goal_handle_: ClientGoalHandle = future.result()
