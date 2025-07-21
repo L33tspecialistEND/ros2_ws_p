@@ -1,7 +1,7 @@
 import rclpy
 import time
 from rclpy.node import Node
-from rclpy.action import ActionServer, GoalResponse
+from rclpy.action import ActionServer, GoalResponse, CancelResponse
 from rclpy.action.server import ServerGoalHandle
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
@@ -17,6 +17,7 @@ class CountUpToServer(Node):
             "/count_up_to",
             goal_callback = self.goal_callback,
             execute_callback = self.execute_callback,
+            cancel_callback = self.cancel_callback,
             callback_group = ReentrantCallbackGroup())
         
         self.get_logger().info("[CountUpTo] Node has started.")
@@ -33,7 +34,7 @@ class CountUpToServer(Node):
         self.get_logger().info("Received a cancel request")
         # Here you can implement any logic needed to handle cancellation
         # For now, we just log it and return ACCEPT
-        return GoalResponse.ACCEPT
+        return CancelResponse.ACCEPT
     
     def execute_callback(self, goal_handle: ServerGoalHandle):
         target_number = goal_handle.request.target_number
@@ -47,14 +48,16 @@ class CountUpToServer(Node):
             counter += 1
             feedback.current_number = counter
             goal_handle.publish_feedback(feedback)
+            
+            if goal_handle.is_cancel_requested:
+                self.get_logger().info("Canceling goal")
+                goal_handle.canceled()
+                result.reached_number = counter
+                return result
             self.get_logger().info(str(counter))
             time.sleep(delay)
         
-        if goal_handle.is_cancel_requested:
-            self.get_logger().info("Canceling goal")
-            goal_handle.canceled()
-            result.reached_number = counter
-            return result
+        
 
         goal_handle.succeed()
         result.reached_number = counter

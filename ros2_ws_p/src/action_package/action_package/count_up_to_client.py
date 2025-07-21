@@ -20,8 +20,16 @@ class CountUpToClient(Node):
             goal, feedback_callback = self.goal_feedback_callback).add_done_callback(
                 self.goal_response_callback)
     
+    def cancel_goal(self):
+        self.get_logger().info("Send a cancel goal request")
+        self.goal_handle_.cancel_goal_async()
+    
     def goal_feedback_callback(self, feedback_msg):
         number = feedback_msg.feedback.current_number
+
+        if number >= 2:
+            self.cancel_goal()
+            
         self.get_logger().info("Current number: " + str(number))
         
     def goal_response_callback(self, future):
@@ -41,7 +49,7 @@ class CountUpToClient(Node):
         elif status == GoalStatus.STATUS_ABORTED:
             self.get_logger().error("Aborted")
         elif status == GoalStatus.STATUS_CANCELED:
-            self.get_logger().warm("Cancelled")
+            self.get_logger().warn("Cancelled")
 
         self.get_logger().info("Result: " + str(result.reached_number))
 
