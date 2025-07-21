@@ -22,7 +22,8 @@ setup(
         'console_scripts': [
             "count_up_to_server = action_package.count_up_to_server_minimal:main",
             "count_up_to_client = action_package.count_up_to_client_minimal:main",
-            "count_up_to_client_full = action_package.count_up_to_client:main"
+            "count_up_to_client_full = action_package.count_up_to_client:main",
+            "count_up_to_server_full = action_package.count_up_to_server:main"
         ],
     },
 )
