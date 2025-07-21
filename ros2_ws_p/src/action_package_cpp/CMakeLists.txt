@@ -15,10 +15,11 @@ add_executable(count_up_to_server src/count_up_to_server_minimal.cpp)
 ament_target_dependencies(count_up_to_server rclcpp rclcpp_action robot_interfaces)
 
 add_executable(count_up_to_client src/count_up_to_client_minimal.cpp)
-ament_target_dependencies(ount_up_to_client rclcpp rclcpp_action robot_interfaces)
+ament_target_dependencies(count_up_to_client rclcpp rclcpp_action robot_interfaces)
 
 install(TARGETS
   count_up_to_server
+  count_up_to_client
   DESTINATION lib/${PROJECT_NAME}/
 )
 
