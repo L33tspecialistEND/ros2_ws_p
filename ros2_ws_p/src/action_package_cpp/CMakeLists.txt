@@ -20,7 +20,7 @@ ament_target_dependencies(count_up_to_client rclcpp rclcpp_action robot_interfac
 add_executable(count_up_to_client_full src/count_up_to_client.cpp)
 ament_target_dependencies(count_up_to_client_full rclcpp rclcpp_action robot_interfaces)
 
-add_executable(count_up_to_server_full src/count_up_to_client.cpp)
+add_executable(count_up_to_server_full src/count_up_to_server.cpp)
 ament_target_dependencies(count_up_to_server_full rclcpp rclcpp_action robot_interfaces)
 
 install(TARGETS
