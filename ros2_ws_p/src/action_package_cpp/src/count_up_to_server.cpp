@@ -12,23 +12,30 @@ class CountUpToServer : public rclcpp::Node
     public:
         CountUpToServer() : Node("count_up_to_server_full")
         {
+            callback_group_ = this->create_callback_group(
+                rclcpp::CallbackGroupType::Reentrant);
             count_up_to_server_ = rclcpp_action::create_server<CountUpTo>(
                 this,
                 "/count_up_to",
                 std::bind(&CountUpToServer::goalCallback, this, _1, _2),
                 std::bind(&CountUpToServer::cancelCallback, this, _1),
-                std::bind(&CountUpToServer::executeCallback, this, _1));
+                std::bind(&CountUpToServer::executeCallback, this, _1),
+                rcl_action_server_get_default_options(),
+                callback_group_
+            );
 
             RCLCPP_INFO(this->get_logger(), "[CountUpToServer] Node started.");
         }
 
     private:
         rclcpp_action::Server<CountUpTo>::SharedPtr count_up_to_server_;
+        rclcpp::CallbackGroup::SharedPtr callback_group_;
 
         rclcpp_action::GoalResponse goalCallback(
             const rclcpp_action::GoalUUID &uuid,
             std::shared_ptr<const CountUpTo::Goal> goal)
         {
+            (void)uuid;
             RCLCPP_INFO(this->get_logger(), "Received a goal.");
 
             if(goal->target_number <= 0)
@@ -43,7 +50,8 @@ class CountUpToServer : public rclcpp::Node
         rclcpp_action::CancelResponse cancelCallback(
             const std::shared_ptr<CountUpToGoalHandle> goal_handle)
         {
-
+            (void)goal_handle;
+            return rclcpp_action::CancelResponse::ACCEPT;
         }
 
         void executeCallback(const std::shared_ptr<CountUpToGoalHandle> goal_handle)
@@ -51,13 +59,24 @@ class CountUpToServer : public rclcpp::Node
             int target_number = goal_handle->get_goal()->target_number;
             double delay = goal_handle->get_goal()->delay;
             auto result = std::make_shared<CountUpTo::Result>();
+            auto feedback = std::make_shared<CountUpTo::Feedback>();
             int counter{};
             rclcpp::Rate loop_rate(1.0 / delay);
 
             RCLCPP_INFO(this->get_logger(), "Executing the goal");
             for(int i{}; i < target_number; ++i)
             {
+                if(goal_handle->is_canceling())
+                {
+                    RCLCPP_INFO(this->get_logger(), "Canceling goal");
+                    result->reached_number = counter;
+                    goal_handle->canceled(result);
+                    return;
+                }
+
                 counter++;
+                feedback->current_number = counter;
+                goal_handle->publish_feedback(feedback);
                 RCLCPP_INFO(this->get_logger(), "%d", counter);
                 loop_rate.sleep();
             }
@@ -71,7 +90,10 @@ int main(int argc, char **argv)
 {
     rclcpp::init(argc, argv);
     auto node = std::make_shared<CountUpToServer>();
-    rclcpp::spin(node);
+
+    rclcpp::executors::MultiThreadedExecutor executor;
+    executor.add_node(node);
+    executor.spin();
     rclcpp::shutdown();
 
     return 0;
