@@ -18,6 +18,14 @@ class TurtleController : public rclcpp::Node
     public:
         TurtleController() : Node("turtle_controller")
         {
+            this->declare_parameter("turtle_velocity", 1.0);
+            this->declare_parameter("color_1", std::vector<int64_t>{255, 0, 0});
+            this->declare_parameter("color_2", std::vector<int64_t>{0, 255, 0});
+
+            turtle_velocity_ = this->get_parameter("turtle_velocity").as_double();
+            color_1_ = this->get_parameter("color_1").as_integer_array();
+            color_2_ = this->get_parameter("color_2").as_integer_array();
+
             move_turtle_publisher_ = create_publisher<geometry_msgs::msg::Twist>(
                 "/turtle1/cmd_vel",
                 10);
@@ -38,7 +46,7 @@ class TurtleController : public rclcpp::Node
             RCLCPP_INFO(this->get_logger(), "[TurtleController] Node started.");
         }
 
-        void set_pen_request(uint8_t r, uint8_t g, uint8_t b, uint8_t width)
+        void set_pen_request(std::vector<int64_t> color)
         {
             while(!turtle_pen_client_->wait_for_service(1s))
             {
@@ -50,10 +58,9 @@ class TurtleController : public rclcpp::Node
                 RCLCPP_INFO(this->get_logger(), "Waiting for service...");
             }
             auto request = std::make_shared<SetPen::Request>();
-            request->r = r;
-            request->g = g;
-            request->b = b;
-            request->width = width;
+            request->r = color[0];
+            request->g = color[1];
+            request->b = color[2];
 
             RCLCPP_INFO(this->get_logger(), "Sending request: r: %d, g: %d, b: %d, width: %d",
                 request->r, request->g, request->b, request->width);
@@ -70,6 +77,9 @@ class TurtleController : public rclcpp::Node
         rclcpp::Service<ActivateTurtle>::SharedPtr activate_turtle_server_;
         bool on_right_side_;
         bool turtle_activated_state_;
+        double turtle_velocity_;
+        std::vector<int64_t> color_1_;
+        std::vector<int64_t> color_2_;
 
         void callback_set_pen_response(rclcpp::Client<SetPen>::SharedFuture future)
         {
@@ -84,28 +94,28 @@ class TurtleController : public rclcpp::Node
             {
                 if (msg->x > 5.5444)
                 {
-                        move_in_circle.angular.z = 1.0;
-                    move_in_circle.linear.x = 1.0;
+                    move_in_circle.angular.z = turtle_velocity_;
+                    move_in_circle.linear.x = turtle_velocity_;
                     move_turtle_publisher_->publish(move_in_circle);
                     RCLCPP_INFO(this->get_logger(), "Turtle moving in the left half of the plane...");
                 }
                 else if(msg->x <= 5.5444)
                 {
-                    move_in_circle.angular.z = 2.0;
-                    move_in_circle.linear.x = 2.0;
+                    move_in_circle.angular.z = turtle_velocity_ * 2;
+                    move_in_circle.linear.x = turtle_velocity_ * 2;
                     move_turtle_publisher_->publish(move_in_circle);
                     RCLCPP_INFO(this->get_logger(), "Turtle moving in the right half of the plane...");
                 }
 
                 if(msg->x > 5.5444 && on_right_side_)
                 {
-                    set_pen_request(200, 0, 0, 4);
-                    RCLCPP_INFO(this->get_logger(), "Setting pen to Red...");
+                    set_pen_request(color_1_);
+                    RCLCPP_INFO(this->get_logger(), "Setting pen color...");
                 on_right_side_ = false;
                 }
                 else if(msg->x <= 5.5444 && !on_right_side_)
                 {
-                    set_pen_request(0, 200, 0, 4);
+                    set_pen_request(color_2_);
                     RCLCPP_INFO(this->get_logger(), "Setting pen to Green...");
                     on_right_side_ = true;
                 }
