@@ -22,7 +22,7 @@ public:
             timer_period = 1.0;
         }
 
-        number_publisher_ = this->create_publisher<example_interfaces::msg::Int64>("/number", 10);
+        number_publisher_ = this->create_publisher<example_interfaces::msg::Int64>("number", 10);
         number_timer_ = this->create_wall_timer(
             std::chrono::duration<double>(timer_period),
             std::bind(&NumberPublisher::publishNumber, this));

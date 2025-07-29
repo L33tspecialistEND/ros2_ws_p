@@ -10,7 +10,7 @@ class NumberCounter : public rclcpp::Node
         NumberCounter() : Node("number_counter")
         {
             number_subscriber_ = this->create_subscription<example_interfaces::msg::Int64>(
-            "/number", 10, std::bind(&NumberCounter::callbackNumber, this, _1));
+            "number", 10, std::bind(&NumberCounter::callbackNumber, this, _1));
 
             RCLCPP_INFO(this->get_logger(), "[NumberCounter] Node has been started.");
         }
