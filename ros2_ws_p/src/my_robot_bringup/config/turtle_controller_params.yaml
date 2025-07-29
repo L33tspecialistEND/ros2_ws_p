@@ -1,10 +1,10 @@
-/turtlesim_1:
+/turtle1/turtlesim_1:
   ros__parameters:
     background_b: 0
     background_g: 0
     background_r: 128
 
-/turtlesim_2:
+/turtle2/turtlesim_2:
   ros__parameters:
     background_b: 0
     background_g: 128
