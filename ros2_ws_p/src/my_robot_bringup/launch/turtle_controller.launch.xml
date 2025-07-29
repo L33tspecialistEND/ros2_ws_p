@@ -13,6 +13,8 @@
         <remap from="/turtle1/pose" to="/turtle1/turtle1/pose"/>
         <remap from="/turtle1/set_pen" to="/turtle1/turtle1/set_pen"/>
         <remap from="/activate_turtle" to="/turtle1/activate_turtle"/>
+
+        <param from="$(find-pkg-share my_robot_bringup)/config/turtle_controller_params.yaml"/>
      </node>
 
      <node pkg="turtle_controller" exec="turtle_controller" name="turtle_controller_2">
@@ -20,6 +22,8 @@
         <remap from="/turtle1/pose" to="/turtle2/turtle1/pose"/>
         <remap from="/turtle1/set_pen" to="/turtle2/turtle1/set_pen"/>
         <remap from="/activate_turtle" to="/turtle2/activate_turtle"/>
+
+        <param from="$(find-pkg-share my_robot_bringup)/config/turtle_controller_params.yaml"/>
      </node>
 
 </launch>

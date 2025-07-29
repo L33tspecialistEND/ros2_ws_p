@@ -9,3 +9,15 @@
     background_b: 0
     background_g: 128
     background_r: 0
+
+/turtle_controller_1:
+  ros__parameters:
+    color_1: [0, 0, 0]
+    color_2: [128, 128, 128]
+    turtle_velocity: 1.5
+
+/turtle_controller_2:
+  ros__parameters:
+    color_1: [128, 128, 128]
+    color_2: [0, 0, 0]
+    turtle_velocity: 0.5
