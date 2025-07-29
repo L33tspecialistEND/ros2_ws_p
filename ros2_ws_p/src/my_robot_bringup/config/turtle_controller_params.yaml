@@ -1,0 +1,11 @@
+/turtlesim_1:
+  ros__parameters:
+    background_b: 0
+    background_g: 0
+    background_r: 128
+
+/turtlesim_2:
+  ros__parameters:
+    background_b: 0
+    background_g: 128
+    background_r: 0
