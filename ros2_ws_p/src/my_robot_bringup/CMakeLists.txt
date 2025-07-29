@@ -10,7 +10,8 @@ find_package(ament_cmake REQUIRED)
 
 # Will install launch directory when package is built
 install(DIRECTORY
-  launch
+  launch      # This directory contains the launch file
+  config      # This directory contains the parameter YAML files
   DESTINATION share/${PROJECT_NAME}/
 )
 

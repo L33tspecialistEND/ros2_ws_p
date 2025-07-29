@@ -1,13 +1,11 @@
 <launch>
     <node pkg="number_publisher" exec="num_pub" name="num_pub1">
         <remap from="/number" to="/my_number"/>
-        <param name="number" value="3"/>
-        <param name="publish_period" value="5.0"/>
+        <param from="$(find-pkg-share my_robot_bringup)/config/number_params.yaml"/>
     </node>
     <node pkg="number_publisher" exec="num_pub" name="num_pub2">
         <remap from="/number" to="/my_number"/>
-        <param name="number" value="4"/>
-        <param name="publish_period" value="8.0"/>
+        <param from="$(find-pkg-share my_robot_bringup)/config/number_params.yaml"/>
     </node>
     <node pkg="number_publisher" exec="number_counter">
         <remap from="/number" to="/my_number"/>
