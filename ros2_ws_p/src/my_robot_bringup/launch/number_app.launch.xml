@@ -1,13 +1,13 @@
 <launch>
-    <node pkg="number_publisher" exec="num_pub" name="num_pub1">
+    <node pkg="number_publisher" exec="num_pub" name="num_pub1" namespace="/highground">
         <remap from="/number" to="/my_number"/>
         <param from="$(find-pkg-share my_robot_bringup)/config/number_params.yaml"/>
     </node>
-    <node pkg="number_publisher" exec="num_pub" name="num_pub2">
+    <node pkg="number_publisher" exec="num_pub" name="num_pub2" namespace="/highground">
         <remap from="/number" to="/my_number"/>
         <param from="$(find-pkg-share my_robot_bringup)/config/number_params.yaml"/>
     </node>
-    <node pkg="number_publisher" exec="number_counter">
+    <node pkg="number_publisher" exec="number_counter" namespace="/highground">
         <remap from="/number" to="/my_number"/>
     </node>
     <node pkg="number_publisher_cpp" exec="number_counter"/>
