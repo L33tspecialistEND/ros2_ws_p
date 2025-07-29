@@ -1,4 +1,12 @@
 <launch>
-    <node pkg="number_publisher" exec="num_pub"/>
+    <node pkg="number_publisher" exec="num_pub" name="num_pub1">
+        <remap from="/number" to="/my_number"/>
+    </node>
+    <node pkg="number_publisher" exec="num_pub" name="num_pub2">
+        <remap from="/number" to="/my_number"/>
+    </node>
+    <node pkg="number_publisher" exec="number_counter">
+        <remap from="/number" to="/my_number"/>
+    </node>
     <node pkg="number_publisher_cpp" exec="number_counter"/>
 </launch>
